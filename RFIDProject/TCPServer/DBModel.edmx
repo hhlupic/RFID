@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="EntryLog">
+          <Key>
+            <PropertyRef Name="IDEntry" />
+          </Key>
+          <Property Name="IDEntry" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RfIdUserId" Type="int" />
+          <Property Name="RfIdReaderId" Type="int" />
+          <Property Name="EntryTime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RfIdCard">
+          <Key>
+            <PropertyRef Name="IDCard" />
+          </Key>
+          <Property Name="IDCard" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SerialNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RfIdReader">
+          <Key>
+            <PropertyRef Name="IDReader" />
+          </Key>
+          <Property Name="IDReader" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IPAddress" Type="nvarchar" MaxLength="15" Nullable="false" />
+          <Property Name="Location" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RfIdUser">
+          <Key>
+            <PropertyRef Name="IDRfIdUser" />
+          </Key>
+          <Property Name="IDRfIdUser" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="CardId" Type="int" />
+        </EntityType>
+        <Association Name="FK_ENTRY_RFID_READER">
+          <End Role="RfIdReader" Type="Self.RfIdReader" Multiplicity="0..1" />
+          <End Role="EntryLog" Type="Self.EntryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdReader">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="EntryLog">
+              <PropertyRef Name="RfIdReaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ENTRY_RFID_USER">
+          <End Role="RfIdUser" Type="Self.RfIdUser" Multiplicity="0..1" />
+          <End Role="EntryLog" Type="Self.EntryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdUser">
+              <PropertyRef Name="IDRfIdUser" />
+            </Principal>
+            <Dependent Role="EntryLog">
+              <PropertyRef Name="RfIdUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RFID_USER_CARD">
+          <End Role="RfIdCard" Type="Self.RfIdCard" Multiplicity="0..1" />
+          <End Role="RfIdUser" Type="Self.RfIdUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdCard">
+              <PropertyRef Name="IDCard" />
+            </Principal>
+            <Dependent Role="RfIdUser">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBStoreContainer">
+          <EntitySet Name="EntryLog" EntityType="Self.EntryLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RfIdCard" EntityType="Self.RfIdCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RfIdReader" EntityType="Self.RfIdReader" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RfIdUser" EntityType="Self.RfIdUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ENTRY_RFID_READER" Association="Self.FK_ENTRY_RFID_READER">
+            <End Role="RfIdReader" EntitySet="RfIdReader" />
+            <End Role="EntryLog" EntitySet="EntryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ENTRY_RFID_USER" Association="Self.FK_ENTRY_RFID_USER">
+            <End Role="RfIdUser" EntitySet="RfIdUser" />
+            <End Role="EntryLog" EntitySet="EntryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RFID_USER_CARD" Association="Self.FK_RFID_USER_CARD">
+            <End Role="RfIdCard" EntitySet="RfIdCard" />
+            <End Role="RfIdUser" EntitySet="RfIdUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="EntryLog">
+          <Key>
+            <PropertyRef Name="IDEntry" />
+          </Key>
+          <Property Name="IDEntry" Type="Int32" Nullable="false" />
+          <Property Name="RfIdUserId" Type="Int32" />
+          <Property Name="RfIdReaderId" Type="Int32" />
+          <Property Name="EntryTime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="RfIdReader" Relationship="Self.FK_ENTRY_RFID_READER" FromRole="EntryLog" ToRole="RfIdReader" />
+          <NavigationProperty Name="RfIdUser" Relationship="Self.FK_ENTRY_RFID_USER" FromRole="EntryLog" ToRole="RfIdUser" />
+        </EntityType>
+        <EntityType Name="RfIdCard">
+          <Key>
+            <PropertyRef Name="IDCard" />
+          </Key>
+          <Property Name="IDCard" Type="Int32" Nullable="false" />
+          <Property Name="SerialNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="RfIdUser" Relationship="Self.FK_RFID_USER_CARD" FromRole="RfIdCard" ToRole="RfIdUser" />
+        </EntityType>
+        <EntityType Name="RfIdReader">
+          <Key>
+            <PropertyRef Name="IDReader" />
+          </Key>
+          <Property Name="IDReader" Type="Int32" Nullable="false" />
+          <Property Name="IPAddress" Type="String" MaxLength="15" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="EntryLog" Relationship="Self.FK_ENTRY_RFID_READER" FromRole="RfIdReader" ToRole="EntryLog" />
+        </EntityType>
+        <EntityType Name="RfIdUser">
+          <Key>
+            <PropertyRef Name="IDRfIdUser" />
+          </Key>
+          <Property Name="IDRfIdUser" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="CardId" Type="Int32" />
+          <NavigationProperty Name="EntryLog" Relationship="Self.FK_ENTRY_RFID_USER" FromRole="RfIdUser" ToRole="EntryLog" />
+          <NavigationProperty Name="RfIdCard" Relationship="Self.FK_RFID_USER_CARD" FromRole="RfIdUser" ToRole="RfIdCard" />
+        </EntityType>
+        <Association Name="FK_ENTRY_RFID_READER">
+          <End Role="RfIdReader" Type="Self.RfIdReader" Multiplicity="0..1" />
+          <End Role="EntryLog" Type="Self.EntryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdReader">
+              <PropertyRef Name="IDReader" />
+            </Principal>
+            <Dependent Role="EntryLog">
+              <PropertyRef Name="RfIdReaderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ENTRY_RFID_USER">
+          <End Role="RfIdUser" Type="Self.RfIdUser" Multiplicity="0..1" />
+          <End Role="EntryLog" Type="Self.EntryLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdUser">
+              <PropertyRef Name="IDRfIdUser" />
+            </Principal>
+            <Dependent Role="EntryLog">
+              <PropertyRef Name="RfIdUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RFID_USER_CARD">
+          <End Role="RfIdCard" Type="Self.RfIdCard" Multiplicity="0..1" />
+          <End Role="RfIdUser" Type="Self.RfIdUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RfIdCard">
+              <PropertyRef Name="IDCard" />
+            </Principal>
+            <Dependent Role="RfIdUser">
+              <PropertyRef Name="CardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RFID_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="EntryLog" EntityType="Self.EntryLog" />
+          <EntitySet Name="RfIdCard" EntityType="Self.RfIdCard" />
+          <EntitySet Name="RfIdReader" EntityType="Self.RfIdReader" />
+          <EntitySet Name="RfIdUser" EntityType="Self.RfIdUser" />
+          <AssociationSet Name="FK_ENTRY_RFID_READER" Association="Self.FK_ENTRY_RFID_READER">
+            <End Role="RfIdReader" EntitySet="RfIdReader" />
+            <End Role="EntryLog" EntitySet="EntryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ENTRY_RFID_USER" Association="Self.FK_ENTRY_RFID_USER">
+            <End Role="RfIdUser" EntitySet="RfIdUser" />
+            <End Role="EntryLog" EntitySet="EntryLog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RFID_USER_CARD" Association="Self.FK_RFID_USER_CARD">
+            <End Role="RfIdCard" EntitySet="RfIdCard" />
+            <End Role="RfIdUser" EntitySet="RfIdUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBStoreContainer" CdmEntityContainer="RFID_DBEntities">
+          <EntitySetMapping Name="EntryLog">
+            <EntityTypeMapping TypeName="DB.EntryLog">
+              <MappingFragment StoreEntitySet="EntryLog">
+                <ScalarProperty Name="IDEntry" ColumnName="IDEntry" />
+                <ScalarProperty Name="RfIdUserId" ColumnName="RfIdUserId" />
+                <ScalarProperty Name="RfIdReaderId" ColumnName="RfIdReaderId" />
+                <ScalarProperty Name="EntryTime" ColumnName="EntryTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RfIdCard">
+            <EntityTypeMapping TypeName="DB.RfIdCard">
+              <MappingFragment StoreEntitySet="RfIdCard">
+                <ScalarProperty Name="IDCard" ColumnName="IDCard" />
+                <ScalarProperty Name="SerialNumber" ColumnName="SerialNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RfIdReader">
+            <EntityTypeMapping TypeName="DB.RfIdReader">
+              <MappingFragment StoreEntitySet="RfIdReader">
+                <ScalarProperty Name="IDReader" ColumnName="IDReader" />
+                <ScalarProperty Name="IPAddress" ColumnName="IPAddress" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RfIdUser">
+            <EntityTypeMapping TypeName="DB.RfIdUser">
+              <MappingFragment StoreEntitySet="RfIdUser">
+                <ScalarProperty Name="IDRfIdUser" ColumnName="IDRfIdUser" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="CardId" ColumnName="CardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
