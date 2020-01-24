@@ -6,43 +6,50 @@
 <h2>Filtered view</h2>
 <hr />
 
-<script src="~/Scripts/bootstrap.js"></script>
 <script src="~/Scripts/bootstrap-datepicker.js"></script>
-<link href="~/Content/bootstrap-datepicker.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
 
 <div class="form-group">
     <div>
-        @Html.Label("Start date: ", new { @class = "control-label col-md-2" })
+        <label class="control-label col-md-2 form-inline">Start date:</label>
         <input type="text" id="txtStartDate" class="form-control datepicker" placeholder="tuten datum" />
     </div>
 </div>
 
+<div class="form-group">
+    <div>
+        <label class="control-label col-md-2 form-inline">End date:</label>
+        <input type="text" id="txtEndDate" class="form-control datepicker" placeholder="tuten datum" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.datepicker').datepicker({
+        format: 'dd.mm.yyyy',
+        useCurrent: true,
+        language: 'en',
+        orientation: 'left bottom'
+    });
+</script>
 
 <div class="form-group">
     <div>
-        @Html.Label("End date: ", new { @class = "control-label col-md-2" })
-        @Html.Editor("txtEndDate", new { @id = "txtEndDate", @class = "form-control" })
+        <label class="control-label col-md-2 form-inline">Name:</label>
+        <input type="text" id="txtName" class="form-control" />
     </div>
 </div>
 
 <div class="form-group">
     <div>
-        @Html.Label("Name: ", new { @class = "control-label col-md-2" })
-        @Html.Editor("txtName", new { @id = "txtName", @class = "form-control" })
-    </div>
-</div>
-
-<div class="form-group">
-    <div>
-        @Html.Label("Surname: ", new { @class = "control-label col-md-2" })
-        @Html.Editor("txtSurname", new { @id = "txtSurname", @class = "form-control" })
+        <label class="control-label col-md-2 form-inline">Surname:</label>
+        <input type="text" id="txtSurname" class="form-control" />
     </div>
 </div>
 
 <div class="form-inline">
     <div>
-        @Html.Label("Reader location: ", new { @class = "control-label col-md-2" })
-        @Html.Editor("txtLocation", new { @id = "txtLocation", @class = "form-control" })
+        <label class="control-label col-md-2 form-inline">Reader location:</label>
+        <input type="text" id="txtLocation" class="form-control" />
 
         @{
             List<SelectListItem> selectListItemList = new List<SelectListItem>();
@@ -50,28 +57,10 @@
             Model.ToList().ForEach(x => selectListItemList.Add(new SelectListItem { Text = x.Location, Value = (x.IDReader).ToString() }));
             @Html.DropDownList("ddlLocations", selectListItemList, new { @id = "ddlLocations", @class = "form-control inline-element" });
         }
+
+        <button id="btnFilter" class="btn btn-warning form-inline col-md-offset-2">Filter</button>
     </div>
+
 </div>
 
-@*<div class="form-group">
-        @Html.LabelFor(model => model.RfIdReaderId, "RfIdReaderId", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("RfIdReaderId", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.RfIdReaderId, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.EntryTime, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.EntryTime, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.EntryTime, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
-
-<div class="form-group">
-    <div class="col-md-2">
-        <button id="btnFilter" class="btn btn-default">Filter</button>
-    </div>
-</div>
-
+<br />
