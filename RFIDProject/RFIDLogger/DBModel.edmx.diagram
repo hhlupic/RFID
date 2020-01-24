@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="1e483984592a4dbca3cff8cad44a1bc9" Name="Diagram1">
+        <EntityTypeShape EntityType="RFID_DBModel.EntryLog" Width="1.5" PointX="5.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RFID_DBModel.RfIdCard" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RFID_DBModel.RfIdReader" Width="1.5" PointX="7.5" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RFID_DBModel.RfIdUser" Width="1.5" PointX="3" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="RFID_DBModel.User" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <AssociationConnector Association="RFID_DBModel.FK_ENTRY_RFID_READER" ManuallyRouted="false" />
+        <AssociationConnector Association="RFID_DBModel.FK_ENTRY_RFID_USER" ManuallyRouted="false" />
+        <AssociationConnector Association="RFID_DBModel.FK_RFID_USER_CARD" ManuallyRouted="false" />
+        <AssociationConnector Association="RFID_DBModel.FK_RFID_USER_USER" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,26 @@
+﻿@model IEnumerable<RFIDLogger.EntryLog>
+@{
+    ViewBag.Title = "Home Page";
+}
+
+    <div id="logContainer">
+        Loading data ...
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            function refreshPartial() {
+                setTimeout(function () {
+                    $.ajax({
+                        type: "GET",
+                        url: "/Home/PVLive",
+                        success: function (data) { $("#logContainer").html(data) }
+                    });
+                    refreshPartial();
+                }, 3000);
+            }
+
+            refreshPartial();
+        });
+        
+    </script>

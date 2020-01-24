@@ -1,0 +1,39 @@
+﻿@model IEnumerable<RFIDLogger.EntryLog>
+
+
+<table class="table">
+    <tr>
+        <th>
+            Entry time
+        </th>
+        <th>
+            Location
+        </th>
+        <th>
+            User
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RfIdUser.IDRfIdUser)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntryTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RfIdReader.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RfIdUser.User.DisplayedName)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IDEntry }) |
+                @Html.ActionLink("Details", "Details", new { id = item.IDEntry }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.IDEntry })
+            </td>
+        </tr>
+    }
+</table>

@@ -35,42 +35,38 @@ namespace TCPServer
             return null;
         }
 
-        private static void getTCPMessage(TcpListener listener, out string ipAddress, out string dataReceived)
+        private static bool getTCPMessage(TcpListener listener, out string ipAddress, out string dataReceived)
         {
+            ipAddress = null;
+            dataReceived = null;
+
             try
             {
                 TcpClient client = listener.AcceptTcpClient();
 
-                IPAddress ip;
-                if (IPAddress.TryParse(client.Client.RemoteEndPoint.ToString().Split(':')[0], out ip))
-                {
-                    ipAddress = ip.ToString();
-                    Console.WriteLine("Parsed IP address: " + ipAddress);
-                }
-                else
+                if (!IPAddress.TryParse(client.Client.RemoteEndPoint.ToString().Split(':')[0], out IPAddress ip))
                 {
                     Logger.LogError("Could not parse IP address from: " + client.Client.RemoteEndPoint.ToString());
-                    ipAddress = null;
-                    dataReceived = null;
-
                     client.Close();
-                    return;
+
+                    return false;
                 }
 
+                ipAddress = ip.ToString();
                 NetworkStream networkStream = client.GetStream();
                 byte[] buffer = new byte[client.ReceiveBufferSize];
 
                 int bytesRead = networkStream.Read(buffer, 0, client.ReceiveBufferSize);
                 dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                Console.WriteLine("Received from: " + ipAddress + " message: " + dataReceived);
                 client.Close();
 
+                return true;
             }
             catch (Exception ex)
             {
                 Logger.LogException(ex);
-                ipAddress = null;
-                dataReceived = null;
+
+                return false;
             }
         }
 
@@ -83,13 +79,10 @@ namespace TCPServer
 
                 while (true)
                 {
-                    Console.WriteLine("Inside the loop");
-
                     string ipAddr;
                     string dataReceived;
 
-                    getTCPMessage(listener, out ipAddr, out dataReceived);
-                    if (ipAddr == null || dataReceived == null)
+                    if (!getTCPMessage(listener, out ipAddr, out dataReceived))
                         continue;
 
                     try
@@ -110,6 +103,8 @@ namespace TCPServer
                         });
 
                         db.SaveChanges();
+
+                        Console.WriteLine("Saved data: RfIdReader: {0}, User: {1}, Time: {2}", idReader, idUser, DateTime.Now);
                     }
                     catch (Exception ex)
                     {
