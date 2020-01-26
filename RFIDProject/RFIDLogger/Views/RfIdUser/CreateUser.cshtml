@@ -1,0 +1,85 @@
+﻿@model RFIDLogger.RfIdUser
+
+@{
+    ViewBag.Title = "CreateUser";
+}
+
+<h2>CreateUser</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2 form-inline">Name:</label>
+                @Html.EditorFor(model => model.User.Name, new { htmlAttributes = new { @class = "form-control col-md-offset-3" } })
+                @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2">Surname:</label>
+                @Html.EditorFor(model => model.User.Surname, new { htmlAttributes = new { @class = "form-control col-md-offset-3" } })
+                @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2">OIB:</label>
+                @Html.EditorFor(model => model.User.OIB, new { htmlAttributes = new { @class = "form-control col-md-offset-3" } })
+                @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <label class="control-label col-md-2">Address:</label>
+                @Html.EditorFor(model => model.User.Address, new { htmlAttributes = new { @class = "form-control col-md-offset-3" } })
+                @Html.ValidationMessageFor(model => model.User.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-lg-10">
+                <label class="control-label col-md-2">RfId Card:</label>
+                @Html.EditorFor(model => model.RfIdCard.SerialNumber, new { htmlAttributes = new { @id = "txtCardNumber", @class = "form-control form-inline col-md-offset-3", @readonly = "readonly" } })
+                @Html.ValidationMessageFor(model => model.CardId, "", new { @class = "text-danger" })
+                @{
+                    List<SelectListItem> selectListItems = new List<SelectListItem>();
+                    List<RfIdCard> unusedCards = ViewBag.UnusedCards;
+                    unusedCards.ForEach(x => selectListItems.Add(new SelectListItem { Text = x.SerialNumber, Value = x.IDCard.ToString() }));
+                    @Html.DropDownList("ddlCardNumber", selectListItems, new { @id = "ddlCardNumber", @class = "form-control form-inline col-lg-offset-3" });
+                }
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $('#ddlCardNumber').change(function (e) {
+                var text = $('#ddlCardNumber option:selected').text();
+                $('#txtCardNumber').val(text);
+            });
+        </script>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

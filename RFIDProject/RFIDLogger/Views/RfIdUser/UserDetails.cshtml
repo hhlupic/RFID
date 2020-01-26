@@ -1,0 +1,54 @@
+﻿@model RFIDLogger.RfIdUser
+
+@{
+    ViewBag.Title = "UserDetails";
+}
+
+<h2>UserDetails</h2>
+
+<div>
+    <h4>RfIdUser</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Name:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Name)
+        </dd>
+
+        <dt>
+            Surname:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Surname)
+        </dd>
+
+        <dt>
+            OIB:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.OIB)
+        </dd>
+
+        <dt>
+            Address:
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.User.Address)
+        </dd>
+
+        <dt>
+            RfID Card:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RfIdCard.SerialNumber)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IDRfIdUser }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

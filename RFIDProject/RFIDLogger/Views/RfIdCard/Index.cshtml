@@ -1,0 +1,50 @@
+﻿@model IEnumerable<RFIDLogger.RfIdCard>
+
+@{
+    ViewBag.Title = "RfID Cards";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Card number:
+        </th>
+        <th>
+            Card user:
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerialNumber)
+            </td>
+            <td>
+                @{
+                    List<RfIdUser> users = ViewBag.Users;
+                    RfIdUser rfIdUser = users.Where(x => x.RfIdCard.SerialNumber == item.SerialNumber).FirstOrDefault();
+                    if (rfIdUser == null)
+                    {
+                        <text>---</text>
+                    }
+                    else
+                    {
+                        <text>@rfIdUser.User.DisplayedName</text>
+                    }
+                }
+
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.IDCard })
+            </td>
+        </tr>
+    }
+
+</table>

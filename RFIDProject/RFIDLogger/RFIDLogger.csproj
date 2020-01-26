@@ -131,6 +131,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RfIdCardController.cs" />
+    <Compile Include="Controllers\RfIdUserController.cs" />
     <Compile Include="DBModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -416,10 +418,19 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Home\PVFiltered.cshtml" />
+    <Content Include="Views\RfIdUser\Index.cshtml" />
+    <Content Include="Views\RfIdUser\UserDetails.cshtml" />
+    <Content Include="Views\RfIdUser\EditUser.cshtml" />
+    <Content Include="Views\RfIdUser\ViewTest.cshtml" />
+    <Content Include="Views\RfIdUser\CreateUser.cshtml" />
+    <Content Include="Views\RfIdCard\Index.cshtml" />
+    <Content Include="Views\RfIdCard\CreateCard.cshtml" />
+    <Content Include="Views\RfIdCard\EditCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

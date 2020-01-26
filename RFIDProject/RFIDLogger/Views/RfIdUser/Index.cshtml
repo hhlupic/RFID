@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RFIDLogger.RfIdUser>
+
+@{
+    ViewBag.Title = "List of Users";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    @Html.ActionLink("Create new User", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Surname
+        </th>
+        <th>
+            OIB
+        </th>
+        <th>
+            RfId Card
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.OIB)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RfIdCard.SerialNumber)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.IDRfIdUser }) |
+                @Html.ActionLink("Edit", "Edit", new { id = item.IDRfIdUser })
+            </td>
+        </tr>
+    }
+
+</table>
